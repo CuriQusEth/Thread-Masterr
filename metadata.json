@@ -1,0 +1,6 @@
+{
+  "name": "Thread Master",
+  "description": "A relaxing yet challenging thread-weaving and pattern-creation game with on-chain attribution.",
+  "requestFramePermissions": ["vibrate"],
+  "majorCapabilities": []
+}
