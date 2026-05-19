@@ -5,26 +5,65 @@ You are the legendary **Thread Master**, an artisan who weaves intricate, magica
 
 Connect nodes, create beautiful geometric and organic designs, and bring harmony to the floating tapestry realm!
 
-## Features
-- **Intuitive Web3 Integration:** Submit your tapestries and on-chain records via Base Mainnet.
-- **ERC-8021:** Asset Attribution Standard implementation.
-- **ERC-8004:** Trustless Agents Integration capable.
-- **Beautiful Canvas Engine:** Realistic thread physics, glowing connections, and cosmic atmosphere.
-- **Particle Effects:** Gorgeous resonance and cascade reactions when creating patterns.
-- **Multi-Agent Architecture:** Fully compliant with MCP and A2A communication.
+## Project Overview
+Thread Master is a visually breathtaking, mobile-first web game where players act as Thread Masters orchestrating cosmic threads. The game features interactive canvas physics, advanced glowing aesthetics, and deep blockchain integration through ERC-8021 and ERC-8004.
 
-## Architecture & API
-This project utilizes a Full-Stack architecture (Vite + React frontend and an Express Backend).
+**URLs:**
+- Live Application: https://thread-masterr.vercel.app/
+- Agent Integration: https://thread-masterr.vercel.app/.well-known/agent-card.json
 
-It exposes explicit endpoints to interact with the Thread Master Orchestrator:
-- `GET /api/agent`: Exposes the main agent control API.
-- `GET /api/mcp`: Identifies the capabilities of the MCP endpoint.
-- `POST /api/mcp`: Listens to incoming Model Context Protocol commands (status, get_info, execute, etc).
-- `/.well-known/agent-card.json`: Follows the [ERC-8004 Agent Registration Standard](https://eips.ethereum.org/EIPS/eip-8004#registration-v1).
+## Tech Stack
+- **Frontend**: React, Next.js (App Router format provided), Tailwind CSS, Framer Motion
+- **Web3 Engine**: Wagmi, Viem
+- **State Management**: Zustand
+- **Canvas Rendering**: HTML5 Canvas with custom particle and thread physics
 
-## Development
-- Local Dev: `npm run dev`
-- Build & Export: `npm run build`
-- Production Run: `npm run start`
+## MCP Connection Guide
+This project supports the **Model Context Protocol (MCP)** for active command execution and agent AI integrations. 
 
-Developed with React, Vite, Express, TypeScript, Canvas, and Tailwind CSS.
+- **MCP Endpoint**: `https://thread-masterr.vercel.app/api/mcp`
+- **Method**: The endpoint accepts JSON-RPC 2.0 POST requests according to standard MCP specifications.
+- **Available MCP Tools**:
+  - `weave_thread`: Connect two nodes with a specific thread type
+  - `get_resonance`: Calculate current harmony resonance score
+  - `record_tapestry`: Submit the current tapestry to the blockchain
+  - `say_gm`: Execute a generic 'Say GM' on-chain action
+  - `analyze_pattern`: Analyze the current node connections for special patterns
+
+## Agent Card Details
+An ERC-8004 compatible agent card is exposed at `/.well-known/agent-card.json`.
+**Capabilities**:
+- thread-mastery
+- conversation-architecture
+- multi-thread-control
+- narrative-mastery
+- advanced-weaving
+- engagement-orchestration
+- mcp-command-execution
+
+**Skills**:
+- **Thread Weaving**: Mastery of cosmic threads to create patterns.
+- **Pattern Recognition**: Ability to identify symmetry and resonance in tapestries.
+- **Narrative Orchestration**: Guiding the user's journey through the tapestry.
+
+## Local Setup
+
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+
+3. **Build for Production**
+   ```bash
+   npm run build
+   ```
+
+4. **Start Production Server**
+   ```bash
+   npm start
+   ```

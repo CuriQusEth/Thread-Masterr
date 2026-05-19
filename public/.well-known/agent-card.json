@@ -27,6 +27,23 @@
       "description": "Main agent control API"
     }
   ],
+  "skills": [
+    {
+      "id": "thread-weaving",
+      "name": "Thread Weaving",
+      "description": "Mastery of cosmic threads to create patterns"
+    },
+    {
+      "id": "pattern-recognition",
+      "name": "Pattern Recognition",
+      "description": "Ability to identify symmetry and resonance in tapestries"
+    },
+    {
+      "id": "narrative-orchestration",
+      "name": "Narrative Orchestration",
+      "description": "Guiding the user's journey through the tapestry"
+    }
+  ],
   "capabilities": [
     "thread-mastery",
     "conversation-architecture",

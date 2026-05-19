@@ -10,73 +10,137 @@ async function startServer() {
 
   // API Routes
   app.get("/api/mcp", (req, res) => {
-    res.json({
-      protocol: "MCP",
-      version: "1.0.0",
-      name: "Thread Master MCP Endpoint",
-      status: "active",
-      description: "Active MCP server for Thread Master Orchestrator Agent",
-      capabilities: ["thread-mastery", "conversation-architecture", "multi-thread-control"],
-      timestamp: new Date().toISOString()
-    });
+    res.json({ status: "MCP Server Active. Use POST for JSON-RPC." });
   });
 
   app.post("/api/mcp", (req, res) => {
     try {
       const body = req.body || {};
-      const { action, command, params } = body;
 
-      let result: any = {};
+      if (body.jsonrpc !== "2.0") {
+        return res.status(400).json({
+          jsonrpc: "2.0",
+          error: { code: -32600, message: "Invalid Request" },
+          id: body.id || null
+        });
+      }
 
-      const currentAction = action || command;
+      let result;
 
-      switch (currentAction) {
-        case "status":
-        case "ping":
-          result = { 
-            status: "online", 
-            agent: "Thread Master Orchestrator",
-            message: "Master threads are aligned - Ready to weave" 
+      switch (body.method) {
+        case "initialize":
+          result = {
+            protocolVersion: "2024-11-05",
+            capabilities: { tools: {} },
+            serverInfo: {
+              name: "Thread Master Orchestrator",
+              version: "1.0.0"
+            }
           };
           break;
 
-        case "execute":
+        case "tools/list":
           result = {
-            success: true,
-            action: command || params,
-            executedAt: new Date().toISOString(),
-            message: "Thread mastery command executed"
+            tools: [
+              {
+                name: "weave_thread",
+                description: "Connect two nodes with a specific thread type",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    startNode: { type: "string" },
+                    endNode: { type: "string" },
+                    threadType: { type: "string" },
+                  },
+                  required: ["startNode", "endNode", "threadType"],
+                },
+              },
+              {
+                name: "get_resonance",
+                description: "Calculate current harmony resonance score",
+                inputSchema: {
+                  type: "object",
+                  properties: {},
+                  required: [],
+                },
+              },
+              {
+                name: "record_tapestry",
+                description: "Submit the current tapestry to the blockchain",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    score: { type: "number" },
+                    signature: { type: "string" },
+                  },
+                  required: ["score"],
+                },
+              },
+              {
+                name: "say_gm",
+                description: "Execute a generic 'Say GM' on-chain action",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" },
+                  },
+                  required: [],
+                },
+              },
+              {
+                name: "analyze_pattern",
+                description: "Analyze the current node connections for special patterns",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    depth: { type: "number" },
+                  },
+                  required: [],
+                },
+              },
+            ],
           };
           break;
 
-        case "get_info":
+        case "tools/call":
           result = {
-            name: "Thread Master Orchestrator",
-            wallet: "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
-            platform: "Base",
-            version: "1.0.0"
+            content: [
+              {
+                type: "text",
+                text: `Successfully executed tool: ${body.params?.name} with arguments ${JSON.stringify(
+                  body.params?.arguments || {}
+                )}`,
+              },
+            ],
           };
+          break;
+
+        case "prompts/list":
+          result = { prompts: [] };
+          break;
+
+        case "resources/list":
+          result = { resources: [] };
           break;
 
         default:
-          result = {
-            success: true,
-            message: "Command received by Thread Master",
-            data: body
-          };
+          return res.status(404).json({
+            jsonrpc: "2.0",
+            error: { code: -32601, message: "Method not found" },
+            id: body.id,
+          });
       }
 
-      res.json({
-        status: "success",
-        agent: "Thread Master Orchestrator",
-        response: result,
-        receivedAt: new Date().toISOString()
+      return res.status(200).json({
+        jsonrpc: "2.0",
+        result,
+        id: body.id,
       });
-
     } catch (error) {
-      res.status(400).json({
-        status: "error",
-        message: "Failed to process MCP command"
+      return res.status(500).json({
+        jsonrpc: "2.0",
+        error: { code: -32700, message: "Parse error" },
+        id: null
       });
     }
   });
@@ -88,6 +152,14 @@ async function startServer() {
       wallet: "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
       platform: "Thread Master",
       version: "1.0.0"
+    });
+  });
+
+  app.post("/api/agent", (req, res) => {
+    res.json({
+      success: true,
+      received: req.body,
+      agent: "Thread Master Orchestrator"
     });
   });
 
