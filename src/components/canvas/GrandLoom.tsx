@@ -184,6 +184,19 @@ export function GrandLoom() {
     const clickedNode = nodes.find(n => Math.hypot(n.x - x, n.y - y) < 30);
     if (clickedNode) {
       setDragStartNode(clickedNode.id);
+      
+      // Spawn magic dust on grab
+      for (let i = 0; i < 5; i++) {
+        particlesRef.current.push({
+          x: clickedNode.x,
+          y: clickedNode.y,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2,
+          life: 20 + Math.random() * 10,
+          maxLife: 30,
+          color: '#ffffff'
+        });
+      }
     }
   };
 
@@ -193,6 +206,16 @@ export function GrandLoom() {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
     setMousePos({ x, y });
+    
+    if (dragStartNode && Math.random() > 0.6) {
+      particlesRef.current.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 1,
+        vy: (Math.random() - 0.5) * 1,
+        life: 15, maxLife: 15,
+        color: THREAD_COLORS[activeType]
+      });
+    }
   };
 
   const handleUp = (clientX: number, clientY: number) => {
@@ -201,22 +224,33 @@ export function GrandLoom() {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
-    const endNode = nodes.find(n => Math.hypot(n.x - x, n.y - y) < 30);
+    const endNode = nodes.find(n => Math.hypot(n.x - x, n.y - y) < 40);
     
     if (endNode && endNode.id !== dragStartNode) {
       connectNodes(dragStartNode, endNode.id, activeType);
       
-      // Spawn particles on connection
+      // Spawn huge particles on connection
       const end = nodes.find(n => n.id === endNode.id)!;
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 20; i++) {
+        particlesRef.current.push({
+          x: end.x,
+          y: end.y,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.5) * 8,
+          life: 40 + Math.random() * 30,
+          maxLife: 70,
+          color: THREAD_COLORS[activeType]
+        });
+      }
+      for (let i = 0; i < 20; i++) {
         particlesRef.current.push({
           x: end.x,
           y: end.y,
           vx: (Math.random() - 0.5) * 4,
           vy: (Math.random() - 0.5) * 4,
-          life: 30 + Math.random() * 20,
-          maxLife: 50,
-          color: THREAD_COLORS[activeType]
+          life: 20 + Math.random() * 20,
+          maxLife: 40,
+          color: '#ffffff'
         });
       }
     }
@@ -225,8 +259,20 @@ export function GrandLoom() {
     setMousePos(null);
   };
 
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault();
+    if (!mousePos) {
+       setDragStartNode(null);
+       return;
+    }
+    if (canvasRef.current) {
+        const rect = canvasRef.current.getBoundingClientRect();
+        handleUp(mousePos.x + rect.left, mousePos.y + rect.top);
+    }
+  };
+
   return (
-    <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-black touch-none">
+    <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-transparent touch-none">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
@@ -236,7 +282,7 @@ export function GrandLoom() {
         onMouseLeave={() => { setDragStartNode(null); setMousePos(null); }}
         onTouchStart={e => { e.preventDefault(); handleDown(e.touches[0].clientX, e.touches[0].clientY); }}
         onTouchMove={e => { e.preventDefault(); handleMove(e.touches[0].clientX, e.touches[0].clientY); }}
-        onTouchEnd={e => { e.preventDefault(); if (mousePos) handleUp(mousePos.x + canvasRef.current!.getBoundingClientRect().left, mousePos.y + canvasRef.current!.getBoundingClientRect().top) }}
+        onTouchEnd={handleTouchEnd}
       />
     </div>
   );

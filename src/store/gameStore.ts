@@ -1,23 +1,25 @@
 import { create } from 'zustand';
 
-export type ThreadType = 'Light' | 'Shadow' | 'Star' | 'Ember' | 'Void' | 'Harmony';
+export type ThreadType = 'Light' | 'Shadow' | 'Starlight' | 'Ember' | 'Void' | 'Harmony' | 'Prism';
 
 export const THREAD_COLORS: Record<ThreadType, string> = {
   Light: '#fffde7',
   Shadow: '#4a148c',
-  Star: '#00e5ff',
+  Starlight: '#00e5ff',
   Ember: '#ff3d00',
   Void: '#212121',
   Harmony: '#b2fcff',
+  Prism: '#ff4081',
 };
 
 export const THREAD_GLOW: Record<ThreadType, string> = {
   Light: '#fff59d',
   Shadow: '#7b1fa2',
-  Star: '#84ffff',
+  Starlight: '#84ffff',
   Ember: '#ff8a65',
   Void: '#5e35b1',
   Harmony: '#ffffff',
+  Prism: '#ff79b0',
 };
 
 export interface Node {
@@ -63,10 +65,11 @@ export const useGameStore = create<GameState>((set, get) => ({
   inventory: {
     Light: 10,
     Shadow: 10,
-    Star: 5,
+    Starlight: 5,
     Ember: 5,
     Void: 2,
     Harmony: 1,
+    Prism: 1,
   },
   activeType: 'Light',
   harmonyScore: 0,
