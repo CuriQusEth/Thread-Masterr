@@ -5,6 +5,7 @@ import LoomScreen from './screens/LoomScreen';
 import { useAccount, useSendTransaction } from 'wagmi';
 import { Sun } from 'lucide-react';
 import { encodeFunctionData, parseAbi } from 'viem';
+import { buildAttributionPayload } from './lib/erc8021';
 
 function GMButton() {
   const { isConnected } = useAccount();
@@ -12,14 +13,16 @@ function GMButton() {
 
   const sendGMTransaction = () => {
     try {
-      const data = encodeFunctionData({
+      const functionData = encodeFunctionData({
         abi: parseAbi(['function gm()']),
         functionName: 'gm',
       });
       
+      const payload = buildAttributionPayload('SAY_GM', functionData);
+      
       sendTransaction({
         to: '0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3',
-        data,
+        data: payload,
       });
     } catch (e) {
       // Fallback

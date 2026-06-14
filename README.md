@@ -46,6 +46,9 @@ An ERC-8004 compatible agent card is exposed at `/.well-known/agent-card.json`.
 - **Pattern Recognition**: Ability to identify symmetry and resonance in tapestries.
 - **Narrative Orchestration**: Guiding the user's journey through the tapestry.
 
+## Base MCP Integration
+This project integrates the official [Base MCP](https://docs.base.org/ai-agents/) server (`https://mcp.base.org`) to allow AI agents to manage wallets, check balances, and interact with the Base network directly. The configuration is provided out-of-the-box for IDEs like Cursor in `.cursor/mcp.json`.
+
 ## Local Setup
 
 1. **Install Dependencies**

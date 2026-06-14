@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useGameStore, THREAD_COLORS, THREAD_GLOW, ThreadType } from '../../store/gameStore';
 
 interface Particle {
@@ -153,7 +153,8 @@ export function GrandLoom() {
         p.y += p.vy;
         p.life--;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.life / p.maxLife * 3, 0, Math.PI * 2);
+        const radius = Math.max(0, (p.life / p.maxLife) * 3);
+        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.shadowBlur = 10;
         ctx.shadowColor = p.color;

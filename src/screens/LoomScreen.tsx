@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAccount, useSendTransaction } from 'wagmi';
 import { buildAttributionPayload } from '../lib/erc8021';
 import { useState } from 'react';
+import { SaveScoreButton } from '../components/SaveScoreButton';
 
 export default function LoomScreen() {
   const { harmonyScore } = useGameStore();
@@ -18,9 +19,9 @@ export default function LoomScreen() {
   const handleSayGM = () => {
     if (!isConnected) return alert('Please connect wallet first!');
     // Real transaction simulation with ERC-8021 attribution data
-    const calldata = buildAttributionPayload('SAY_GM', { message: 'GM from Thread Master' });
+    const calldata = buildAttributionPayload('SAY_GM');
     sendTransaction({
-      to: address, // Send to self as a mock action, or to a specific contract
+      to: '0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3', // GM contract address
       value: 0n,
       data: calldata
     });
@@ -28,7 +29,7 @@ export default function LoomScreen() {
 
   const handleRecordTapestry = () => {
     if (!isConnected) return setShowRecordModal(true);
-    const calldata = buildAttributionPayload('RECORD_TAPESTRY', { score: harmonyScore });
+    const calldata = buildAttributionPayload('RECORD_TAPESTRY');
     sendTransaction({
       to: address, 
       value: 0n,
@@ -96,13 +97,7 @@ export default function LoomScreen() {
               {isPending ? '...' : 'GM'}
             </button>
 
-            <button
-              onClick={handleRecordTapestry}
-              className="px-4 md:px-6 py-2 border border-white/20 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-white/5 transition-all"
-            >
-              <span className="hidden md:inline">Record On-Chain</span>
-              <span className="md:hidden">Record</span>
-            </button>
+            <SaveScoreButton score={harmonyScore} />
           </div>
         </div>
 
