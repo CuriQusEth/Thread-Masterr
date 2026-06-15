@@ -5,7 +5,6 @@ import { DATA_SUFFIX } from '../erc8021';
 
 export const config = createConfig({
   chains: [base],
-  multiInjectedProviderDiscovery: false,
   transports: {
     [base.id]: http(),
   },
