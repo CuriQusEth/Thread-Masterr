@@ -17,7 +17,7 @@ export default function LoomScreen() {
   const [showRecordModal, setShowRecordModal] = useState(false);
 
   const handleSayGM = () => {
-    if (!isConnected) return alert('Please connect wallet first!');
+    if (!isConnected) return setShowRecordModal(true);
     // Real transaction simulation with ERC-8021 attribution data
     const calldata = buildAttributionPayload('SAY_GM');
     sendTransaction({

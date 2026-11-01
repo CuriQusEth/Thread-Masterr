@@ -37,9 +37,14 @@ export function SaveScoreModal({
         animate={{ opacity: 1, scale: 1 }}
         className="bg-zinc-900 border border-white/10 p-8 rounded-2xl max-w-sm w-full text-center"
       >
-        <Sparkles className="w-12 h-12 text-pink-400 mx-auto mb-4 opacity-80" />
-        <h2 className="text-xl font-light mb-2">Approve Transaction</h2>
-        <p className="text-sm text-white/50 mb-6">Please approve the transaction in your Base wallet.</p>
+        <Sparkles className="w-12 h-12 text-pink-400 mx-auto mb-3 opacity-80" />
+        <span className="inline-block px-2.5 py-0.5 mb-2 text-[10px] uppercase tracking-wider font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full">
+          Base Account Tools • Base MCP
+        </span>
+        <h2 className="text-xl font-light mb-1">Confirm On-Chain Record</h2>
+        <p className="text-xs text-white/60 mb-5">
+          Record your score on Base Mainnet with ERC-8021 Builder Code attribution. Please review and confirm this write operation.
+        </p>
         
         {status === "failed" && (
           <p className="text-sm text-red-400 mb-4">Transaction failed. Please try again.</p>

@@ -45,7 +45,7 @@ export async function readScoreViaMcp(player: string): Promise<any> {
 
 export async function pollStatus(
   requestId: string,
-  intervalMs = 2000,
+  intervalMs = 1000,
   timeoutMs  = 120_000
 ): Promise<"completed" | "failed"> {
   const deadline = Date.now() + timeoutMs;

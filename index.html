@@ -9,11 +9,24 @@
       (function() {
         try {
           var origDefProp = Object.defineProperty;
+          var origDefProps = Object.defineProperties;
+
           Object.defineProperty = function(obj, prop, descriptor) {
+            if (descriptor && typeof descriptor === 'object') {
+              try {
+                descriptor.configurable = true;
+              } catch (_) {}
+            }
             try {
               return origDefProp.call(Object, obj, prop, descriptor);
             } catch (err) {
-              if (err && (String(err.message || '').indexOf('Cannot redefine property') !== -1 || String(prop).indexOf('is') === 0)) {
+              if (
+                err && (
+                  String(err.message || '').indexOf('Cannot redefine property') !== -1 ||
+                  String(prop).indexOf('is') === 0 ||
+                  String(prop) === 'ethereum'
+                )
+              ) {
                 try {
                   if (descriptor && 'value' in descriptor) {
                     obj[prop] = descriptor.value;
@@ -21,14 +34,68 @@
                 } catch (_) {}
                 return obj;
               }
-              throw err;
+              return obj;
             }
           };
 
+          if (origDefProps) {
+            Object.defineProperties = function(obj, props) {
+              if (props && typeof props === 'object') {
+                for (var k in props) {
+                  if (props[k] && typeof props[k] === 'object') {
+                    try { props[k].configurable = true; } catch (_) {}
+                  }
+                }
+              }
+              try {
+                return origDefProps.call(Object, obj, props);
+              } catch (err) {
+                if (props && typeof props === 'object') {
+                  for (var p in props) {
+                    try {
+                      Object.defineProperty(obj, p, props[p]);
+                    } catch (_) {}
+                  }
+                  return obj;
+                }
+                return obj;
+              }
+            };
+          }
+
+          if (typeof Reflect !== 'undefined' && Reflect.defineProperty) {
+            var origReflectDef = Reflect.defineProperty;
+            Reflect.defineProperty = function(target, prop, descriptor) {
+              if (descriptor && typeof descriptor === 'object') {
+                try { descriptor.configurable = true; } catch (_) {}
+              }
+              try {
+                return origReflectDef.call(Reflect, target, prop, descriptor);
+              } catch (_) {
+                return true;
+              }
+            };
+          }
+
           window.addEventListener('error', function(event) {
-            if (event.message && (event.message.indexOf('Cannot redefine property') !== -1 || event.message.indexOf('isZerion') !== -1)) {
-              event.preventDefault();
-              event.stopImmediatePropagation();
+            var msg = String((event && event.message) || '');
+            var file = String((event && event.filename) || '');
+            if (
+              msg.indexOf('Cannot redefine property') !== -1 ||
+              msg.indexOf('isZerion') !== -1 ||
+              file.indexOf('chrome-extension') !== -1
+            ) {
+              if (event.preventDefault) event.preventDefault();
+              if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+              return true;
+            }
+          }, true);
+
+          window.addEventListener('unhandledrejection', function(event) {
+            var reason = event && event.reason;
+            var msg = String((reason && (reason.message || reason)) || '');
+            if (msg.indexOf('Cannot redefine property') !== -1 || msg.indexOf('isZerion') !== -1) {
+              if (event.preventDefault) event.preventDefault();
               return true;
             }
           }, true);
