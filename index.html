@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="base:app_id" content="68f40250b6320e0dd0819adf" />
     <meta name="talentapp:project_verification" content="ac65442d4ad93c2d7dd46e0bf40ae94bf86150d6a93b8148f340d4a37d42c2ac80c82ca6a0df98f70211eb3d012e4aacce10efc822a8569927b7918e1c8f7797">
+    <script>
+      (function() {
+        try {
+          var origDefProp = Object.defineProperty;
+          Object.defineProperty = function(obj, prop, descriptor) {
+            try {
+              return origDefProp.call(Object, obj, prop, descriptor);
+            } catch (err) {
+              if (err && (String(err.message || '').indexOf('Cannot redefine property') !== -1 || String(prop).indexOf('is') === 0)) {
+                try {
+                  if (descriptor && 'value' in descriptor) {
+                    obj[prop] = descriptor.value;
+                  }
+                } catch (_) {}
+                return obj;
+              }
+              throw err;
+            }
+          };
+
+          window.addEventListener('error', function(event) {
+            if (event.message && (event.message.indexOf('Cannot redefine property') !== -1 || event.message.indexOf('isZerion') !== -1)) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              return true;
+            }
+          }, true);
+        } catch (_) {}
+      })();
+    </script>
     <title>Thread Master</title>
   </head>
   <body>
