@@ -75,6 +75,11 @@ export default function LoomScreen() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-4 pointer-events-auto">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-[10px] text-blue-300 font-mono">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            Base Denim (200ms)
+          </div>
+
           {isConnected ? (
             <div className="hidden md:flex px-4 py-2 bg-white/5 rounded-full border border-white/10 items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]" />

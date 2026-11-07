@@ -39,11 +39,11 @@ export function SaveScoreModal({
       >
         <Sparkles className="w-12 h-12 text-pink-400 mx-auto mb-3 opacity-80" />
         <span className="inline-block px-2.5 py-0.5 mb-2 text-[10px] uppercase tracking-wider font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full">
-          Base Account Tools • Base MCP
+          Base Denim Mainnet • 200ms Blocks
         </span>
         <h2 className="text-xl font-light mb-1">Confirm On-Chain Record</h2>
         <p className="text-xs text-white/60 mb-5">
-          Record your score on Base Mainnet with ERC-8021 Builder Code attribution. Please review and confirm this write operation.
+          Record your score on Base Mainnet (Denim) with ERC-8021 Builder Code attribution. Please review and confirm this write operation.
         </p>
         
         {status === "failed" && (

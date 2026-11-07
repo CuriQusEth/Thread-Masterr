@@ -83,12 +83,12 @@ export default function TitleScreen() {
 
       </div>
 
-      <div className="absolute bottom-6 flex items-center gap-2 text-white/20 text-[10px] uppercase tracking-widest font-mono">
-        <span>Base Mainnet</span>
+      <div className="absolute bottom-6 flex items-center gap-2 text-white/30 text-[10px] uppercase tracking-widest font-mono">
+        <span className="text-blue-400">Base Denim Mainnet (200ms)</span>
         <span className="w-1 h-1 bg-white/20 rounded-full" />
         <span>ERC-8021</span>
         <span className="w-1 h-1 bg-white/20 rounded-full" />
-        <span>ERC-8004</span>
+        <span>Base MCP</span>
       </div>
 
     </div>

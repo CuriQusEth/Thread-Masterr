@@ -43,9 +43,10 @@ export async function readScoreViaMcp(player: string): Promise<any> {
   });
 }
 
+// Optimized for Base Mainnet Denim 200ms native block confirmation
 export async function pollStatus(
   requestId: string,
-  intervalMs = 1000,
+  intervalMs = 500,
   timeoutMs  = 120_000
 ): Promise<"completed" | "failed"> {
   const deadline = Date.now() + timeoutMs;
